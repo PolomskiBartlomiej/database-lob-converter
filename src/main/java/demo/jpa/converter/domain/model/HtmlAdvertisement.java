@@ -1,22 +1,28 @@
 package demo.jpa.converter.domain.model;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.net.URI;
+import java.net.URL;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@EqualsAndHashCode
+@ToString
 public class HtmlAdvertisement {
+
     @NotNull
     private String header;
+
     @NotNull
-    private String paragrahp;
+    private String paragraph;
+
     @NotNull
-    private URI banner;
+    private URL bannerUrl;
+
     @NotNull
     private String html;
 }

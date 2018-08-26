@@ -1,30 +1,28 @@
 package demo.jpa.converter.app;
 
-import demo.jpa.converter.domain.model.Advertisement;
-import demo.jpa.converter.domain.model.HtmlAdvertisement;
+import demo.jpa.converter.app.dto.AdvertisementConverter;
+import demo.jpa.converter.app.dto.AdvertisementDto;
 import demo.jpa.converter.domain.service.AdvertisementService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.util.UUID;
+import java.net.MalformedURLException;
 
 @RestController
 @RequestMapping("advertisements")
+@Api(value = "/advertisements", description = "Operation about advertisements")
 @RequiredArgsConstructor
 class AdvertisementController {
 
     final AdvertisementService service;
+    final AdvertisementConverter converter;
 
     @PostMapping
-    public void createAdvertisement(@RequestBody Advertisement advertisement) {
-        Advertisement.builder()
-                .id(UUID.randomUUID())
-                .customerId(0L)
-                .html(new HtmlAdvertisement("asda","asdad",URI.create("www.image.pl"),"asdasd"));
-        service.createAdvertisement(advertisement);
+    public void createAdvertisement(@RequestBody AdvertisementDto advertisement) throws MalformedURLException {
+        service.createAdvertisement(converter.toEntity(advertisement));
     }
+
+    @GetMapping("/health")
+    public void healthCheck(){}
 }
